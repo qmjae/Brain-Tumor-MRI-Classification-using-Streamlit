@@ -22,7 +22,7 @@ def import_and_predict(image_data, model):
     image = ImageOps.fit(image_data, size, PIL.Image.LANCZOS)  # Use PIL.Image.LANCZOS for resizing
     img = np.asarray(image)
     img = img / 255.0  # Normalize pixel values
-    img_reshape = img[np.newaxis, ...]
+    img = np.expand_dims(img, axis=0)
     prediction = model.predict(img_reshape)
     return prediction
 
