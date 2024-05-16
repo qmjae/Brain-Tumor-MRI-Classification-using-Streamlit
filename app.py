@@ -5,7 +5,6 @@ from PIL import Image, ImageOps
 import numpy as np
 
 @st.cache(allow_output_mutation=True)
-
 def load_model():
     model = tf.keras.models.load_model('fmodel.h5')
     return model
@@ -36,7 +35,6 @@ st.sidebar.markdown("[Click Here](https://drive.google.com/drive/folders/1MExGDF
 st.sidebar.header('Google Colaboratory Link')
 st.sidebar.markdown("[Click Here](https://colab.research.google.com/drive/1voRF5tQ49C45BU7mJRV8wBKjji_YANz5?usp=sharing)")
 
-
 st.markdown(
     """
     <style>
@@ -60,6 +58,7 @@ file = st.file_uploader("Choose a Brain MRI image", type=["jpg", "png"])
 def import_and_predict(image_data, model):
     size = (150, 150)  # Match the input size with the Google Colab code
     image = ImageOps.fit(image_data, size, PIL.Image.LANCZOS)  # Use PIL.Image.LANCZOS for resizing
+    image = image.convert('RGB')  # Ensure image has 3 color channels (RGB)
     img = np.asarray(image)
     img = img / 255.0  # Normalize pixel values
     img_reshape = img[np.newaxis, ...]
@@ -82,4 +81,3 @@ else:
     class_names = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
     string = "OUTPUT : " + class_names[np.argmax(prediction)]
     st.success(string)
-
